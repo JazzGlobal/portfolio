@@ -1,7 +1,8 @@
 document.getElementById("year").textContent = new Date().getFullYear();
 
+const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const glitchEls = document.querySelectorAll(".glitch");
-if (glitchEls.length && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+if (glitchEls.length && !reduce) {
   const chars = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
   const word = "COMING_SOON";
   const rand = () => chars[Math.floor(Math.random() * chars.length)];
@@ -21,9 +22,41 @@ if (glitchEls.length && !window.matchMedia("(prefers-reduced-motion: reduce)").m
   });
 }
 
+const glitchTargets = document.querySelectorAll(".skills li[data-skill], .about-glitch");
+if (!reduce) {
+  const asciiChars = "#$%&*+-./:;<=>?@[]^_{}~";
+  glitchTargets.forEach(target => {
+    const label = target.dataset.skill ?? target.textContent.trim().replace(/\s+/g, " ");
+    let timeout;
+    const restore = () => {
+      clearTimeout(timeout);
+      target.textContent = label;
+    };
+    const scramble = () => {
+      clearTimeout(timeout);
+      let frame = 0;
+      const step = () => {
+        if (frame === 5) {
+          target.textContent = label;
+          return;
+        }
+        target.textContent = Array.from(label, char =>
+          char === " " ? " " : asciiChars[Math.floor(Math.random() * asciiChars.length)]
+        ).join("");
+        frame++;
+        timeout = setTimeout(step, 45);
+      };
+      step();
+    };
+    target.addEventListener("mouseenter", scramble);
+    target.addEventListener("focus", scramble);
+    target.addEventListener("mouseleave", restore);
+    target.addEventListener("blur", restore);
+  });
+}
+
 const phrases = ["web apps.", "tools & automation.", "things that work."];
 const el = document.getElementById("typed");
-const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 if (reduce) {
   el.textContent = phrases[0];
