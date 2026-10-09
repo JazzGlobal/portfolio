@@ -1,5 +1,26 @@
 document.getElementById("year").textContent = new Date().getFullYear();
 
+const glitchEls = document.querySelectorAll(".glitch");
+if (glitchEls.length && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  const chars = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
+  const word = "COMING_SOON";
+  const rand = () => chars[Math.floor(Math.random() * chars.length)];
+  glitchEls.forEach(g => {
+    const len = +g.dataset.len;
+    let flashUntil = 0;
+    (function step() {
+      const now = performance.now();
+      if (now > flashUntil && Math.random() < 0.03) flashUntil = now + 300 + Math.random() * 300;
+      if (now < flashUntil) {
+        g.textContent = word.padEnd(len, " ").slice(0, Math.max(len, word.length));
+      } else {
+        g.textContent = Array.from({ length: len }, rand).join("");
+      }
+      setTimeout(step, 50 + Math.random() * 50);
+    })();
+  });
+}
+
 const phrases = ["web apps.", "tools & automation.", "things that work."];
 const el = document.getElementById("typed");
 const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
