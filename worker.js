@@ -9,6 +9,11 @@ export default {
       return response;
     }
 
+    if (!env.PROJECT1_LINK) {
+      console.error("PROJECT1_LINK is not configured");
+      return response;
+    }
+
     const html = await response.text();
 
     return new Response(
