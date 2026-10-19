@@ -17,7 +17,7 @@ export default {
     const html = await response.text();
 
     return new Response(
-      html.replaceAll("PROJECT1-LINK", env.PROJECT1_LINK),
+      html.replaceAll("[PROJECT1-LINK]", env.PROJECT1_LINK),
       response
     );
   }
