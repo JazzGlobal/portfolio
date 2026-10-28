@@ -71,7 +71,7 @@ h1 { font-size: clamp(1.8rem, 5vw, 2.8rem); margin: 0 0 .5rem; color: #d7efe3; }
 .tags { color: var(--warn); font-size: .85rem; }
 .card.locked { border-style: dashed; }
 .restricted { color: var(--warn); letter-spacing: .1em; font-weight: bold; }
-.glitch { font-variant-ligatures: none; white-space: pre-wrap; word-break: break-all; }
+.glitch { display: inline-block; max-width: 100%; vertical-align: bottom; overflow: hidden; text-overflow: clip; font-variant-ligatures: none; white-space: pre; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 .skill-groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; }
